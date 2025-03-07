@@ -1,8 +1,21 @@
 const express = require("express")
 const cors = require("cors")
+const WebSocket = require('ws');
 const {HfInference} = require("@huggingface/inference")
 
 require("dotenv").config();
+const wss = new WebSocket.Server({ port: 10000 });
+
+const socket = new WebSocket('wss://self-chef-igom.onrender.com:10000/ws');
+
+
+wss.on('connection', (ws) => {
+  ws.on('message', (message) => {
+    console.log('received: %s', message);
+  });
+  ws.send('Welcome to WebSocket server!');
+});
+
 
 
 const PORT = process.env.PORT;
