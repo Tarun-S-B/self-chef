@@ -3,7 +3,7 @@ const cors = require("cors")
 const WebSocket = require('ws');
 const {HfInference} = require("@huggingface/inference");
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3333;
 
 require("dotenv").config();
 const wss = new WebSocket.Server({ port: PORT });
