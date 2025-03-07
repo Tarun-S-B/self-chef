@@ -6,10 +6,9 @@ const {HfInference} = require("@huggingface/inference");
 const PORT = process.env.PORT || 10000;
 
 require("dotenv").config();
-const wss = new WebSocket.Server({ port: process.env.PORT || 10000 });
+const wss = new WebSocket.Server({ port: PORT });
 
-const socket = new WebSocket('wss://self-chef-igom.onrender.com:10000/ws');
-
+const socket = new WebSocket(`wss://self-chef-igom.onrender.com:${PORT}/ws`);
 
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
