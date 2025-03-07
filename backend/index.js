@@ -1,10 +1,12 @@
 const express = require("express")
 const cors = require("cors")
 const WebSocket = require('ws');
-const {HfInference} = require("@huggingface/inference")
+const {HfInference} = require("@huggingface/inference");
+
+const PORT = process.env.PORT || 10000;
 
 require("dotenv").config();
-const wss = new WebSocket.Server({ port: 10000 });
+const wss = new WebSocket.Server({ port: process.env.PORT || 10000 });
 
 const socket = new WebSocket('wss://self-chef-igom.onrender.com:10000/ws');
 
@@ -18,7 +20,6 @@ wss.on('connection', (ws) => {
 
 
 
-const PORT = process.env.PORT;
 
 const app = express();
 app.use(express.json());
