@@ -4,57 +4,24 @@ const {WebSocketServer} = require('ws');
 const {HfInference} = require("@huggingface/inference")
 
 require("dotenv").config();
-
-
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT;
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 
-// ✅ Create HTTP server manually
-const server = createServer(app);
-
+const server = app.listen(PORT, () => {
+    console.log(`Server started at Port ${PORT}`)
+})
 
 const wss = new WebSocketServer({server})
 
-
 wss.on("connection", (ws) => {
-    console.log("New WebSocket connection");
-
     ws.on("message", (data) => {
-        console.log("Received from client:", data);
-    });
-
-    ws.send("Hello from server!");
-});
-
-// ✅ Start server
-server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        console.log("From client in ws ",data)
+    })
+}) 
 
 app.get("/",(req, res) => {
     res.send("Backend Up")
