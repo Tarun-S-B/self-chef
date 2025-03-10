@@ -1,4 +1,4 @@
-const socket = new WebSocket('wss://your-deployed-backend-url.com:10000/ws');
+const socket = new WebSocket("wss://self-chef-igom.onrender.com/ws");
 
 socket.onopen = () => {
     console.log("WebSocket connection established.");
