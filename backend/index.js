@@ -1,15 +1,27 @@
 const express = require("express")
 const cors = require("cors")
+const {WebSocketServer} = require('ws');
 const {HfInference} = require("@huggingface/inference")
 
 require("dotenv").config();
-
 
 const PORT = process.env.PORT;
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+const server = app.listen(PORT, () => {
+    console.log(`Server started at Port ${PORT}`)
+})
+
+const wss = new WebSocketServer({server})
+
+wss.on("connection", (ws) => {
+    ws.on("message", (data) => {
+        console.log("From client in ws ",data)
+    })
+}) 
 
 app.get("/",(req, res) => {
     res.send("Backend Up")
@@ -19,6 +31,9 @@ app.get("/getData", (req,res) => {
     res.send("From backend");
 })
 
+app.get("/verify-backend", (req, res) => {
+    res.send("Backend Up on port of backend")
+})
 
 
 
@@ -58,6 +73,3 @@ app.post("/sendRecipe", async (req,res) => {
 })
 
 
-app.listen(PORT, () => {
-    console.log(`Server started at Port ${PORT}`)
-})
