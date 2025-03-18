@@ -7,7 +7,7 @@ export const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        const newSocket = io("http://localhost:3333", { transports: ["websocket"] });
+        const newSocket = io("https://self-chef-igom.onrender.com", { transports: ["websocket"] });
 
         newSocket.on("connect", () => console.log("Connected:", newSocket.id));
         newSocket.on("disconnect", () => console.log("Disconnected"));

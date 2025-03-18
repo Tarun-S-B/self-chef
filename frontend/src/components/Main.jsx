@@ -46,7 +46,7 @@ function Main() {
   async function generateRecipe() {
     setLoading(true);
 
-    const response = await fetch(`http://localhost:3333/sendRecipe`, {
+    const response = await fetch(`https://self-chef-backend-l96d.onrender.com/sendRecipe`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
