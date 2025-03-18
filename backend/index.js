@@ -100,6 +100,6 @@ app.post("/sendRecipe", async (req,res) => {
 
 
 
-server.listen(PORT, () => {
+server.listen(PORT,"0.0.0.0", () => {
     console.log(`Backend Server running on ${PORT}`);
 })
