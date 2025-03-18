@@ -1,27 +1,34 @@
 const express = require("express")
+const http = require("http")
 const cors = require("cors")
-const {WebSocketServer} = require('ws');
+const {Server} = require("socket.io")
 const {HfInference} = require("@huggingface/inference")
 
 require("dotenv").config();
 const PORT = process.env.PORT;
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET","POST"],
+    },
+});
 app.use(express.json());
 app.use(cors());
 
+io.on("connection", (client) => {
+    console.log("Clien id: ",client.id);
 
-const server = app.listen(PORT, () => {
-    console.log(`Server started at Port ${PORT}`)
+    client.on('frontend_message', (frontend_data) => {
+        console.log(frontend_data)
+
+        const backend_data = "This data is from backend";
+        io.emit("backend_data",backend_data);
+    })
 })
 
-const wss = new WebSocketServer({server})
-
-wss.on("connection", (ws) => {
-    ws.on("message", (data) => {
-        console.log("From client in ws ",data)
-    })
-}) 
 
 app.get("/",(req, res) => {
     res.send("Backend Up")
@@ -60,16 +67,39 @@ async function getRecipeFromMistral(ingredientsArr) {
 
 
 
+// app.post("/sendRecipe", async (req,res) => {
+//     const {ingredients} = req.body;
+
+//     console.log(ingredients)
+
+//     const fromAI = await getRecipeFromMistral(ingredients)
+
+
+//     res.json({recipe:fromAI});
+    
+// })
+
+
 app.post("/sendRecipe", async (req,res) => {
     const {ingredients} = req.body;
 
     console.log(ingredients)
 
-    const fromAI = await getRecipeFromMistral(ingredients)
+    try {
+        const fromAI = await getRecipeFromMistral(ingredients)
 
+        io.emit("backend_recipe", fromAI);
 
-    res.json({recipe:fromAI});
-    
+        res.json({message: "Recipe Send via WebSocket"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error: "Failed to get recipe"});
+    }
 })
 
 
+
+
+server.listen(PORT, () => {
+    console.log(`Backend Server running on ${PORT}`);
+})
