@@ -13,6 +13,7 @@ const io = new Server(server, {
     cors: {
         origin: "https://self-chef-igom.onrender.com",
         methods: ["GET","POST"],
+        credentials: true
     },
 });
 app.use(express.json());
