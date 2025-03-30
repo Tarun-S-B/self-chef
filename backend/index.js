@@ -6,7 +6,7 @@ const {HfInference} = require("@huggingface/inference")
 
 require("dotenv").config();
 const PORT = process.env.PORT;
-
+const FRONTEND_URL_VAR = process.env.FRONTEND_URL;
 const app = express();
 const server = http.createServer(app);
 // const io = new Server(server, {
@@ -25,9 +25,8 @@ const io = new Server(server, {
     transports: ["websocket", "polling"] // Ensure correct transport options
 });
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || "https://self-chef-igom.onrender.com",
+    origin: FRONTEND_URL_VAR || "https://self-chef-igom.onrender.com",
     methods: ["GET", "POST"],
-    credentials: true
 };
 
 app.use(express.json());
