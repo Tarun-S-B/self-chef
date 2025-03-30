@@ -4,6 +4,8 @@ import ClaudeRecipe from "./ClaudeRecipe";
 import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../socketContext";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function Main() {
   const socket = useSocket();
   // to store the ingredients added by the user
@@ -46,7 +48,7 @@ function Main() {
   async function generateRecipe() {
     setLoading(true);
 
-    const response = await fetch(`https://self-chef-backend-l96d.onrender.com/sendRecipe`, {
+    const response = await fetch(`${API_URL}/sendRecipe`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
