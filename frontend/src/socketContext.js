@@ -45,7 +45,11 @@ export const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        const newSocket = io(BACKEND, { transports: ["websocket","polling"], withCredentials: true });
+        // const newSocket = io(BACKEND, { transports: ["websocket","polling"], withCredentials: true });
+        // const newSocket = io("https://self-chef-igom.onrender.com", { transports: ["websocket", "polling"] });
+        const newSocket = io("https://self-chef-backend-l96d.onrender.com", { transports: ["polling"] });
+
+
         newSocket.on("connect", () => console.log("Connected:", newSocket.id));
         newSocket.on("disconnect", () => console.log("Disconnected"));
 

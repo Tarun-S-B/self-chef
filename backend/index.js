@@ -9,14 +9,21 @@ const PORT = process.env.PORT;
 
 const app = express();
 const server = http.createServer(app);
+// const io = new Server(server, {
+//     cors: {
+//         origin: "https://self-chef-igom.onrender.com",
+//         methods: ["GET","POST"],
+//         credentials: true
+//     },
+// });
 const io = new Server(server, {
     cors: {
-        origin: "https://self-chef-igom.onrender.com",
-        methods: ["GET","POST"],
+        origin: "*", // Allow all origins for testing
+        methods: ["GET", "POST"],
         credentials: true
     },
+    transports: ["websocket", "polling"] // Ensure correct transport options
 });
-
 const corsOptions = {
     origin: process.env.FRONTEND_URL || "https://self-chef-igom.onrender.com",
     methods: ["GET", "POST"],
