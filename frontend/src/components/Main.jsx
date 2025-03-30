@@ -4,7 +4,7 @@ import ClaudeRecipe from "./ClaudeRecipe";
 import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../socketContext";
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.BACKEND_URL;
 
 function Main() {
   const socket = useSocket();

@@ -38,14 +38,14 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
-
+const BACKEND = process.env.BACKEND_URL;
 const SocketContext = createContext(null);
 
 export const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        const newSocket = io("wss://self-chef-igom.onrender.com", { transports: ["websocket","polling"], secure: true });
+        const newSocket = io(BACKEND, { transports: ["websocket","polling"], withCredentials: true });
         newSocket.on("connect", () => console.log("Connected:", newSocket.id));
         newSocket.on("disconnect", () => console.log("Disconnected"));
 

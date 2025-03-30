@@ -16,8 +16,16 @@ const io = new Server(server, {
         credentials: true
     },
 });
+
+const corsOptions = {
+    origin: process.env.FRONTEND_URL || "https://self-chef-igom.onrender.com",
+    methods: ["GET", "POST"],
+    credentials: true
+};
+
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
+
 
 io.on("connection", (client) => {
     console.log("Clien id: ",client.id);
@@ -26,7 +34,7 @@ io.on("connection", (client) => {
         console.log(frontend_data)
 
         const backend_data = "This data is from backend";
-        io.emit("backend_data",backend_data);
+        client.emit("backend_data",backend_data);
     })
 })
 
